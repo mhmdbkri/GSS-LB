@@ -1,0 +1,14 @@
+{
+  "name": "gss-lb",
+  "version": "1.0.0",
+  "description": "Nelify Serveless Function for GSS LB static site",
+  "main": "sendmail.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "mo",
+  "license": "ISC",
+  "dependencies": {
+    "@sendgrid/mail": "^7.4.2"
+  }
+}

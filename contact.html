@@ -34,6 +34,40 @@
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
     <link rel="manifest" href="site.webmanifest" />
+
+    <script>
+      var myFunction = async function (e) {
+        //e.preventDefault();
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const subject = document.getElementById("subject").value;
+        const message = document.getElementById("message").value;
+
+        const to_send = {
+          name: name,
+          email: email,
+          subject: subject,
+          message: message,
+        };
+
+        console.log(to_send);
+        try {
+          const response = await fetch("/api/sendmail", {
+            method: "POST",
+            body: JSON.stringify(to_send),
+          });
+          if (!response.ok) {
+            //Do something when request fails
+            alert("worked");
+            return false;
+          }
+          //Do something when request is successful
+        } catch (e) {
+          console.log(e);
+          return false;
+        }
+      };
+    </script>
   </head>
   <body>
     <div class="py-1 top">
@@ -209,7 +243,12 @@
 
         <div class="row block-9">
           <div class="col-md-8">
-            <form action="#" class="p-4 p-md-5 contact-form">
+            <form
+              method="POST"
+              action="#"
+              onsubmit="return myFunction(this)"
+              class="p-4 p-md-5 contact-form"
+            >
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">
@@ -217,6 +256,8 @@
                       type="text"
                       class="form-control"
                       placeholder="Your Name"
+                      id="name"
+                      value=""
                     />
                   </div>
                 </div>
@@ -226,6 +267,8 @@
                       type="text"
                       class="form-control"
                       placeholder="Your Email"
+                      id="email"
+                      value=""
                     />
                   </div>
                 </div>
@@ -235,18 +278,20 @@
                       type="text"
                       class="form-control"
                       placeholder="Subject"
+                      id="subject"
+                      value=""
                     />
                   </div>
                 </div>
                 <div class="col-md-12">
                   <div class="form-group">
                     <textarea
-                      name=""
-                      id=""
                       cols="30"
                       rows="7"
                       class="form-control"
                       placeholder="Message"
+                      id="message"
+                      value=""
                     ></textarea>
                   </div>
                 </div>
