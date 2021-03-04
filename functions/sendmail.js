@@ -5,7 +5,7 @@
 // https://support.sendgrid.com/hc/en-us?return_to=%2Fhc%2Frequests
 
 // functions/sendmail.js
-//require("dotenv").config();
+require("dotenv").config();
 
 const sgMail = require("@sendgrid/mail");
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
