@@ -22,7 +22,7 @@ exports.handler = async (event, context, callback) => {
   const mail_to_send = {
     to: "admin@gss-lb.com",
     from: "admin@gss-lb.com",
-    subject: subject ? subject : "New Message from Contact Form" + email,
+    subject: "New Message from Contact Form from" + email,
     html: body,
   };
   console.log(mail_to_send);
