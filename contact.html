@@ -52,10 +52,14 @@
 
         console.log(to_send);
         try {
-          const response = await fetch("/api/sendmail", {
-            method: "POST",
-            body: JSON.stringify(to_send),
-          });
+          const response = await fetch(
+            "https://gss-lb.com/.netlify/functions/sendmail",
+            {
+              //fetch("/api/sendmail", {
+              method: "POST",
+              body: JSON.stringify(to_send),
+            }
+          );
           if (!response.ok) {
             //Do something when request fails
             //alert("worked");
