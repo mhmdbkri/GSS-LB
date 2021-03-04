@@ -30,8 +30,8 @@ exports.handler = async (event, context, callback) => {
     })
     .join("<br><br>");
   const mail_to_send = {
-    to: "admin@gss-lb.com",
-    from: "admin@gss-lb.com",
+    to: ["tarek@gss-lb.com"],
+    from: "system@gss-lb.com",
     subject: subject,
     html: body,
   };
