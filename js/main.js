@@ -233,3 +233,94 @@
   });
   $(".appointment_time").timepicker();
 })(jQuery);
+
+const handlePopupSubmit = async function (e) {
+  e.preventDefault();
+  $("#request-quote-btn").addClass("disabled");
+  $("#request-quote-btn").prop("disabled", true);
+
+  const fname = document.getElementById("popup-first-name").value;
+  const lname = document.getElementById("popup-last-name").value;
+  const phone = document.getElementById("popup-phone").value;
+  const selectService = document.getElementById("popup-service");
+  const service = selectService.options[selectService.selectedIndex].value;
+  const message = document.getElementById("popup-message").value;
+
+  const to_send = {
+    firstname: fname,
+    lastname: lname,
+    phone: phone,
+    service: service,
+    message: message,
+  };
+  console.log(to_send);
+  try {
+    const response = await fetch("/.netlify/functions/sendmail?inquire=1", {
+      //fetch("/api/sendmail", {
+      method: "POST",
+      body: JSON.stringify(to_send),
+    });
+    if (!response.ok) {
+      //Do something when request fails
+      //alert("worked");
+      //$("#inquiry-error-alert").removeClass("hide");
+      //$("#inquiry-error-alert").addClass("show");
+      $("#inquiry-error-alert").show();
+
+      $("#request-quote-btn").removeClass("disabled");
+      $("#request-quote-btn").prop("disabled", false);
+      console.log("failed to send message");
+      return false;
+    }
+    //Do something when request is successful
+    //$("#inquiry-success-alert").removeClass("hide");
+    //$("#inquiry-success-alert").addClass("show");
+    $("#inquiry-success-alert").show();
+
+    $("#request-quote-btn").removeClass("disabled");
+    $("#request-quote-btn").prop("disabled", false);
+    console.log("Message submitted successfully!");
+  } catch (e) {
+    console.log(e);
+    //$("#inquiry-error-alert").removeClass("hide");
+    //$("#inquiry-error-alert").addClass("show");
+    $("#inquiry-error-alert").show();
+
+    $("#request-quote-btn").removeClass("disabled");
+    $("#request-quote-btn").prop("disabled", false);
+    return false;
+  }
+
+  //$("#exampleModalCenter").modal("toggle");
+  return false;
+};
+
+$(function () {
+  $("[data-hide]").on("click", function () {
+    console.log("click!");
+    //$("." + $(this).attr("data-hide")).hide();
+    $(this)
+      .closest("." + $(this).attr("data-hide"))
+      .hide(100);
+    // $(this)
+    //   .closest("." + $(this).attr("data-hide"))
+    //   .removeClass("show");
+    // $(this)
+    //   .closest("." + $(this).attr("data-hide"))
+    //   .addClass("hide");
+    /*
+     * The snippet above will hide all elements with the class specified in data-hide,
+     * i.e: data-hide="alert" will hide all elements with the alert property.
+     *
+     * Xeon06 provided an alternative solution:
+     * $(this).closest("." + $(this).attr("data-hide")).hide();
+     * Use this if are using multiple alerts with the same class since it will only find the closest element
+     *
+     * (From jquery doc: For each element in the set, get the first element that matches the selector by
+     * testing the element itself and traversing up through its ancestors in the DOM tree.)
+     */
+  });
+});
+
+$("#inquiry-success-alert").hide();
+$("#inquiry-error-alert").hide();

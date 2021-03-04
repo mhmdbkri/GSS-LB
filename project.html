@@ -551,14 +551,59 @@
             </button>
           </div>
           <div class="modal-body p-4 p-md-5">
-            <form action="#" class="appointment-form ftco-animate">
+            <form
+              onsubmit="return handlePopupSubmit(event)"
+              action="#"
+              class="appointment-form ftco-animate"
+            >
               <h3>Request Quote</h3>
+
               <div class="">
+                <div class="container alert-container">
+                  <div
+                    id="inquiry-success-alert"
+                    class="alert alert-success alert-dismissible fade show"
+                    role="alert"
+                  >
+                    <strong
+                      >Thanks for reaching out, we'll get back to you
+                      asap!</strong
+                    >
+                    <button
+                      type="button"
+                      class="close"
+                      data-hide="alert"
+                      aria-label="Close"
+                    >
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div
+                    id="inquiry-error-alert"
+                    class="alert alert-danger alert-dismissible fade show"
+                    role="alert"
+                  >
+                    <strong
+                      >Oops! sonthing went wrong, please try again.</strong
+                    >
+                    <button
+                      type="button"
+                      class="close"
+                      data-hide="alert"
+                      aria-label="Close"
+                    >
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                </div>
                 <div class="form-group">
                   <input
                     type="text"
                     class="form-control"
                     placeholder="First Name"
+                    id="popup-first-name"
+                    value=""
+                    required
                   />
                 </div>
                 <div class="form-group">
@@ -566,10 +611,20 @@
                     type="text"
                     class="form-control"
                     placeholder="Last Name"
+                    id="popup-last-name"
+                    value=""
+                    required
                   />
                 </div>
                 <div class="form-group">
-                  <input type="text" class="form-control" placeholder="Phone" />
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Phone"
+                    id="popup-phone"
+                    value=""
+                    required
+                  />
                 </div>
               </div>
               <div class="">
@@ -579,13 +634,18 @@
                       <div class="icon">
                         <span class="fa fa-chevron-down"></span>
                       </div>
-                      <select name="" id="" class="form-control">
+                      <select
+                        name=""
+                        class="form-control"
+                        id="popup-service"
+                        required
+                      >
                         <option value="">Select Your Services</option>
-                        <option value="">Cleaning</option>
-                        <option value="">Valet</option>
-                        <option value="">Security</option>
-                        <option value="">Maintenance</option>
-                        <option value="">Other Services</option>
+                        <option value="Cleaning">Cleaning</option>
+                        <option value="Valet">Valet</option>
+                        <option value="Security">Security</option>
+                        <option value="Maintenance">Maintenance</option>
+                        <option value="Other Services">Other Services</option>
                       </select>
                     </div>
                   </div>
@@ -595,15 +655,18 @@
                 <div class="form-group">
                   <textarea
                     name=""
-                    id=""
                     cols="30"
                     rows="4"
                     class="form-control"
                     placeholder="Message"
+                    id="popup-message"
+                    value=""
+                    required
                   ></textarea>
                 </div>
                 <div class="form-group">
                   <input
+                    id="request-quote-btn"
                     type="submit"
                     value="Request A Quote"
                     class="btn btn-primary py-3 px-4"

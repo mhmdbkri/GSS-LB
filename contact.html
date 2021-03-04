@@ -34,42 +34,6 @@
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
     <link rel="manifest" href="site.webmanifest" />
-
-    <script>
-      var myFunction = async function (e) {
-        e.preventDefault();
-        const name = document.getElementById("name").value;
-        const email = document.getElementById("email").value;
-        const subject = document.getElementById("subject").value;
-        const message = document.getElementById("message").value;
-
-        const to_send = {
-          name: name,
-          email: email,
-          subject: subject,
-          message: message,
-        };
-
-        console.log(to_send);
-        try {
-          const response = await fetch("/.netlify/functions/sendmail", {
-            //fetch("/api/sendmail", {
-            method: "POST",
-            body: JSON.stringify(to_send),
-          });
-          if (!response.ok) {
-            //Do something when request fails
-            //alert("worked");
-            return false;
-          }
-          //Do something when request is successful
-          console.log("Message submitted successfully!");
-        } catch (e) {
-          console.log(e);
-          return false;
-        }
-      };
-    </script>
   </head>
   <body>
     <div class="py-1 top">
@@ -242,7 +206,40 @@
             <p>Our team will handle your inquiries as soon as possible.</p>
           </div>
         </div>
-
+        <div class="container alert-container">
+          <div
+            id="contact-success-alert"
+            class="alert alert-success alert-dismissible fade show"
+            role="alert"
+          >
+            <strong
+              >Thanks for reaching out, we'll get back to you asap!</strong
+            >
+            <button
+              type="button"
+              class="close"
+              data-hide="alert"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div
+            id="contact-error-alert"
+            class="alert alert-danger alert-dismissible fade show"
+            role="alert"
+          >
+            <strong>Oops! sonthing went wrong, please try again.</strong>
+            <button
+              type="button"
+              class="close"
+              data-hide="alert"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        </div>
         <div class="row block-9">
           <div class="col-md-8">
             <form
@@ -260,17 +257,19 @@
                       placeholder="Your Name"
                       id="name"
                       value=""
+                      required
                     />
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
                     <input
-                      type="text"
+                      type="email"
                       class="form-control"
                       placeholder="Your Email"
                       id="email"
                       value=""
+                      required
                     />
                   </div>
                 </div>
@@ -282,6 +281,7 @@
                       placeholder="Subject"
                       id="subject"
                       value=""
+                      required
                     />
                   </div>
                 </div>
@@ -294,6 +294,7 @@
                       placeholder="Message"
                       id="message"
                       value=""
+                      required
                     ></textarea>
                   </div>
                 </div>
@@ -303,6 +304,7 @@
                       type="submit"
                       value="Send Message"
                       class="btn btn-primary py-3 px-5"
+                      id="send-message-btn"
                     />
                   </div>
                 </div>
@@ -555,14 +557,59 @@
             </button>
           </div>
           <div class="modal-body p-4 p-md-5">
-            <form action="#" class="appointment-form ftco-animate">
+            <form
+              onsubmit="return handlePopupSubmit(event)"
+              action="#"
+              class="appointment-form ftco-animate"
+            >
               <h3>Request Quote</h3>
+
               <div class="">
+                <div class="container alert-container">
+                  <div
+                    id="inquiry-success-alert"
+                    class="alert alert-success alert-dismissible fade show"
+                    role="alert"
+                  >
+                    <strong
+                      >Thanks for reaching out, we'll get back to you
+                      asap!</strong
+                    >
+                    <button
+                      type="button"
+                      class="close"
+                      data-hide="alert"
+                      aria-label="Close"
+                    >
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div
+                    id="inquiry-error-alert"
+                    class="alert alert-danger alert-dismissible fade show"
+                    role="alert"
+                  >
+                    <strong
+                      >Oops! sonthing went wrong, please try again.</strong
+                    >
+                    <button
+                      type="button"
+                      class="close"
+                      data-hide="alert"
+                      aria-label="Close"
+                    >
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                </div>
                 <div class="form-group">
                   <input
                     type="text"
                     class="form-control"
                     placeholder="First Name"
+                    id="popup-first-name"
+                    value=""
+                    required
                   />
                 </div>
                 <div class="form-group">
@@ -570,10 +617,20 @@
                     type="text"
                     class="form-control"
                     placeholder="Last Name"
+                    id="popup-last-name"
+                    value=""
+                    required
                   />
                 </div>
                 <div class="form-group">
-                  <input type="text" class="form-control" placeholder="Phone" />
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Phone"
+                    id="popup-phone"
+                    value=""
+                    required
+                  />
                 </div>
               </div>
               <div class="">
@@ -583,13 +640,18 @@
                       <div class="icon">
                         <span class="fa fa-chevron-down"></span>
                       </div>
-                      <select name="" id="" class="form-control">
+                      <select
+                        name=""
+                        class="form-control"
+                        id="popup-service"
+                        required
+                      >
                         <option value="">Select Your Services</option>
-                        <option value="">Cleaning</option>
-                        <option value="">Valet</option>
-                        <option value="">Security</option>
-                        <option value="">Maintenance</option>
-                        <option value="">Other Services</option>
+                        <option value="Cleaning">Cleaning</option>
+                        <option value="Valet">Valet</option>
+                        <option value="Security">Security</option>
+                        <option value="Maintenance">Maintenance</option>
+                        <option value="Other Services">Other Services</option>
                       </select>
                     </div>
                   </div>
@@ -599,15 +661,18 @@
                 <div class="form-group">
                   <textarea
                     name=""
-                    id=""
                     cols="30"
                     rows="4"
                     class="form-control"
                     placeholder="Message"
+                    id="popup-message"
+                    value=""
+                    required
                   ></textarea>
                 </div>
                 <div class="form-group">
                   <input
+                    id="request-quote-btn"
                     type="submit"
                     value="Request A Quote"
                     class="btn btn-primary py-3 px-4"
@@ -662,5 +727,63 @@
     <script src="js/google-map.js"></script>
 
     <script src="js/main.js"></script>
+    <script>
+      $("#contact-success-alert").hide();
+      $("#contact-error-alert").hide();
+
+      const myFunction = async function (e) {
+        e.preventDefault();
+
+        $("#send-message-btn").addClass("disabled");
+        $("#send-message-btn").prop("disabled", true);
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const subject = document.getElementById("subject").value;
+        const message = document.getElementById("message").value;
+
+        const to_send = {
+          name: name,
+          email: email,
+          subject: subject,
+          message: message,
+        };
+
+        console.log(to_send);
+        try {
+          const response = await fetch("/.netlify/functions/sendmail", {
+            //fetch("/api/sendmail", {
+            method: "POST",
+            body: JSON.stringify(to_send),
+          });
+          if (!response.ok) {
+            //Do something when request fails
+            //alert("worked");
+            //$("#contact-error-alert").addClass("show");
+            //$("#contact-error-alert").removeClass("hide");
+            //$("#contact-error-alert").addClass("show"); //.show();
+            $("#contact-error-alert").show();
+            $("#send-message-btn").removeClass("disabled");
+            $("#send-message-btn").prop("disabled", false);
+            return false;
+          }
+          //Do something when request is successful
+          //$("#contact-success-alert").removeClass("hide");
+          //$("#contact-success-alert").addClass("show"); //.show();.show();
+          $("#contact-success-alert").show();
+          console.log("Message submitted successfully!");
+          $("#send-message-btn").removeClass("disabled");
+          $("#send-message-btn").prop("disabled", false);
+        } catch (e) {
+          console.log(e);
+          //$("#contact-error-alert").removeClass("hide");
+          //$("#contact-error-alert").addClass("show"); //.show();.show();
+          $("#contact-error-alert").show();
+
+          $("#send-message-btn").removeClass("disabled");
+          $("#send-message-btn").prop("disabled", false);
+          return false;
+        }
+      };
+    </script>
   </body>
 </html>

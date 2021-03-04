@@ -11,8 +11,18 @@ const sgMail = require("@sendgrid/mail");
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 exports.handler = async (event, context, callback) => {
   console.log("function triggered!");
+
   const data = JSON.parse(event.body);
-  const { email, subject } = data;
+
+  const isInquiryForm = event.queryStringParameters.inquire;
+  let subject;
+  if (isInquiryForm == "1") {
+    const { firstname, lastname } = data;
+    subject = `New Inquiry Message from ${firstname} ${lastname}`;
+  } else {
+    const { email } = data;
+    subject = "New Message from Contact Form from " + email;
+  }
   console.log(data);
   const body = Object.keys(data)
     .map((k) => {
@@ -22,7 +32,7 @@ exports.handler = async (event, context, callback) => {
   const mail_to_send = {
     to: "admin@gss-lb.com",
     from: "admin@gss-lb.com",
-    subject: "New Message from Contact Form from" + email,
+    subject: subject,
     html: body,
   };
   console.log(mail_to_send);
