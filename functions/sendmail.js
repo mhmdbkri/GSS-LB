@@ -20,7 +20,7 @@ exports.handler = async (event, context, callback) => {
     })
     .join("<br><br>");
   const mail_to_send = {
-    to: "mohyddintash@gmail.com",
+    to: "admin@gss-lb.com",
     from: email,
     subject: subject ? subject : "New Message from Contact Form",
     html: body,
