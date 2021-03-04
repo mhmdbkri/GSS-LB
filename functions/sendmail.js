@@ -21,8 +21,8 @@ exports.handler = async (event, context, callback) => {
     .join("<br><br>");
   const mail_to_send = {
     to: "admin@gss-lb.com",
-    from: email,
-    subject: subject ? subject : "New Message from Contact Form",
+    from: "admin@gss-lb.com",
+    subject: subject ? subject : "New Message from Contact Form" + email,
     html: body,
   };
   console.log(mail_to_send);
