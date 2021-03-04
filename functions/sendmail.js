@@ -10,6 +10,7 @@ require("dotenv").config();
 const sgMail = require("@sendgrid/mail");
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 exports.handler = async (event, context, callback) => {
+  console.log('function triggered!')
   const data = JSON.parse(event.body);
   const { email, subject } = data;
   const body = Object.keys(data)
@@ -31,6 +32,7 @@ exports.handler = async (event, context, callback) => {
     };
   } catch (e) {
     return {
+      console.log('error', e),
       statusCode: e.code,
       body: e.message,
     };
