@@ -10,9 +10,10 @@ require("dotenv").config();
 const sgMail = require("@sendgrid/mail");
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 exports.handler = async (event, context, callback) => {
-  console.log('function triggered!')
+  console.log("function triggered!");
   const data = JSON.parse(event.body);
   const { email, subject } = data;
+  console.log(data);
   const body = Object.keys(data)
     .map((k) => {
       return `${k}: ${data[k]}`;
@@ -24,6 +25,7 @@ exports.handler = async (event, context, callback) => {
     subject: subject ? subject : "New Message from Contact Form",
     html: body,
   };
+  console.log(mail_to_send);
   try {
     await sgMail.send(mail_to_send);
     return {
@@ -31,8 +33,8 @@ exports.handler = async (event, context, callback) => {
       body: "Message sent successfully",
     };
   } catch (e) {
+    console.log("error", e);
     return {
-      console.log('error', e),
       statusCode: e.code,
       body: e.message,
     };
