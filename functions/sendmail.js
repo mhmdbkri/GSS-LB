@@ -34,6 +34,7 @@ exports.handler = async (event, context, callback) => {
     };
   } catch (e) {
     console.log("error", e);
+    console.log(body.errors);
     return {
       statusCode: e.code,
       body: e.message,
