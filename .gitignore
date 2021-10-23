@@ -1,3 +1,4 @@
 scss/
 gsslb-info.txt
 .env
+node_modules/
